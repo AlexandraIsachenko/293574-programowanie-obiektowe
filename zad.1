@@ -4,81 +4,81 @@
 
 using namespace std;
 
-void dodajOsobe(string *tabNazwiska, string *tabImie, int *tabIndeks, string nazwisko, string imie, int indeks) {
-    static int numer = 0;
-	tabNazwiska[numer]=nazwisko;
-	tabImie[numer]=imie;
-	tabIndeks[numer]=indeks;
+void dodajOsobe(string* tabNazwiska, string* tabImie, int* tabIndeks, string nazwisko, string imie, int indeks) {
+	static int numer = 0;
+	tabNazwiska[numer] = nazwisko;
+	tabImie[numer] = imie;
+	tabIndeks[numer] = indeks;
 	numer++;
 }
 
-void ustawObecnosc(string *tabNazwiska, bool *tabObecnosc, string nazwisko, bool obecnosc) {
-	for (int i=0;i<10;i++){
-	    if(tabNazwiska[i]==nazwisko){
-	        tabObecnosc[i]=obecnosc;
-	    }
-	}
-}
-
-void drukujListe(string *tabNazwiska, bool *tabObecnosc, string *tabImie, int *tabIndeks) {
+void ustawObecnosc(string* tabNazwiska, bool* tabObecnosc, string nazwisko, bool obecnosc) {
 	for (int i = 0; i < 10; i++) {
-		cout << tabNazwiska[i]<<" "<<tabImie[i]<<" "<<tabIndeks[i] <<" " << tabObecnosc[i]<<endl;
+		if (tabNazwiska[i] == nazwisko) {
+			tabObecnosc[i] = obecnosc;
+		}
 	}
 }
 
-void edytujListe(string *tabNazwiska, string *tabImie, int *tabIndeks,bool *tabObecnosc, string nazwisko){
-    int opcja=0;
-    string zmiana;
-    int zmianaInt;
-    bool zmianaBool;
-    for (int i;i<=10;i++){
-        if (tabNazwiska[i]==nazwisko){
-            while (opcja!=5){
-                cout<<"Co chcesz zmienic? Wybierz opcje:"<<endl<<"1. Nazwisko"<<endl<<"2. Imie"<<endl<<"3. Numer indeksu"<<endl<<"4. Obecnosc"<<endl<<"5. Zakoncz edytowanie"<<endl;
-                cin>>opcja;
-                cout<<"Na co chcesz zmienic?"<<endl;
-                switch (opcja){
-                    case 1:
-                        cin>>zmiana;
-                        tabNazwiska[i]=zmiana;
-                        break;
-                    case 2:
-                        cin>>zmiana;
-                        tabImie[i]=zmiana;
-                        break;
-                    case 3:
-                        cin>>zmianaInt;
-                        tabIndeks[i]=zmianaInt;
-                        break;
-                    case 4:
-                        cin>>zmianaBool;
-                        tabObecnosc[i]=zmianaBool;
-                        break;
-                    case 5:
-                        break;
-                }
-            }
-        }
-    }
+void drukujListe(string* tabNazwiska, bool* tabObecnosc, string* tabImie, int* tabIndeks) {
+	for (int i = 0; i < 10; i++) {
+		cout << tabNazwiska[i] << " " << tabImie[i] << " " << tabIndeks[i] << " " << tabObecnosc[i] << endl;
+	}
 }
 
-void usunzListy(string *tabNazwiska, string *tabImie, int *tabIndeks,bool *tabObecnosc, string nazwisko){
-    int usuwanyElement;
-    for (int i=0;i<=10;i++){
-        if (tabNazwiska[i]==nazwisko){
-            usuwanyElement=i;
-            tabNazwiska[i]=" ";
-            tabImie[i]=" ";
-            tabIndeks[i]=0;
-            tabObecnosc[i]=0;
-        }
-    }
-    for (int i = usuwanyElement; i <9; i++) {
-        tabNazwiska[i] = tabNazwiska[i + 1];
-        tabImie[i]=tabImie[i+1];
-        tabIndeks[i]=tabIndeks[i+1];
-        tabObecnosc[i]=tabObecnosc[i+1];
-    }
+void edytujListe(string* tabNazwiska, string* tabImie, int* tabIndeks, bool* tabObecnosc, string nazwisko) {
+	int opcja = 0;
+	string zmiana;
+	int zmianaInt;
+	bool zmianaBool;
+	for (int i=0; i <= 10; i++) {
+		if (tabNazwiska[i] == nazwisko) {
+			while (opcja != 5) {
+				cout << "Co chcesz zmienic? Wybierz opcje:" << endl << "1. Nazwisko" << endl << "2. Imie" << endl << "3. Numer indeksu" << endl << "4. Obecnosc" << endl << "5. Zakoncz edytowanie" << endl;
+				cin >> opcja;
+				cout << "Na co chcesz zmienic?" << endl;
+				switch (opcja) {
+				case 1:
+					cin >> zmiana;
+					tabNazwiska[i] = zmiana;
+					break;
+				case 2:
+					cin >> zmiana;
+					tabImie[i] = zmiana;
+					break;
+				case 3:
+					cin >> zmianaInt;
+					tabIndeks[i] = zmianaInt;
+					break;
+				case 4:
+					cin >> zmianaBool;
+					tabObecnosc[i] = zmianaBool;
+					break;
+				case 5:
+					break;
+				}
+			}
+		}
+	}
+}
+
+void usunzListy(string* tabNazwiska, string* tabImie, int* tabIndeks, bool* tabObecnosc, string nazwisko) {
+	int usuwanyElement;
+	for (int i = 0; i <= 10; i++) {
+		if (tabNazwiska[i] == nazwisko) {
+			usuwanyElement = i;
+			tabNazwiska[i] = " ";
+			tabImie[i] = " ";
+			tabIndeks[i] = 0;
+			tabObecnosc[i] = 0;
+		}
+	}
+	for (int i = usuwanyElement; i < 9; i++) {
+		tabNazwiska[i] = tabNazwiska[i + 1];
+		tabImie[i] = tabImie[i + 1];
+		tabIndeks[i] = tabIndeks[i + 1];
+		tabObecnosc[i] = tabObecnosc[i + 1];
+	}
 }
 
 int main() {
@@ -86,49 +86,49 @@ int main() {
 	bool tabObecnosc[10];
 	string tabImie[10];
 	int tabIndeks[10];
-		for (int i;i<10;i++){
-	    tabObecnosc[i]=0;
-	    tabIndeks[i]=0;
+	for (int i=0; i < 10; i++) {
+		tabObecnosc[i] = 0;
+		tabIndeks[i] = 0;
 	}
-	int opcja=0;
+	int opcja = 0;
 	string nazwisko, imie;
 	bool obecnosc;
 	int indeks;
-	while (opcja!=6){
-	    cout << "Wybierz opcje:"<<endl<<"1. Dodaj osobe"<<endl<<"2. Ustaw obecnosc"<<endl<<"3. Drukuj liste"<<endl<<"4. Edytuj liste"<<endl<<"5. Usun z listy"<<endl<<"6. Stop"<<endl;
-	    cin >> opcja;
-	    switch (opcja){
-	        case 1:
-		        cout << "Podaj nazwisko osoby" << endl;
-		        cin >> nazwisko;
-		        cout << "Podaj imie osoby"<<endl;
-		        cin >> imie;
-		        cout << "Podaj numer indeksu osoby"<<endl;
-		        cin >> indeks;
-		        dodajOsobe(tabNazwiska, tabImie, tabIndeks, nazwisko,imie, indeks);
-		        break;
-            case 2:
-		        cout << "Podaj nazwisko osoby" << endl;
-		        cin >> nazwisko;
-		        cout << "Czy obecna? (0/1)" << endl;
-		        cin >> obecnosc;
-		        ustawObecnosc(tabNazwiska, tabObecnosc, nazwisko, obecnosc);
-		        break;
-            case 3:
-		        drukujListe(tabNazwiska, tabObecnosc, tabImie, tabIndeks);
-		        break;
-		    case 4:
-		        cout<<"Podaj nazwisko osoby"<<endl;
-                cin>>nazwisko;
-		        edytujListe(tabNazwiska, tabImie, tabIndeks, tabObecnosc, nazwisko);
-		        break;
-		    case 5:
-		        cout<<"Podaj nazwisko osoby"<<endl;
-                cin>>nazwisko;
-		        usunzListy(tabNazwiska, tabImie, tabIndeks, tabObecnosc, nazwisko);
-		        break;
-	        case 6:
-	            break;
-	    }
+	while (opcja != 6) {
+		cout << "Wybierz opcje:" << endl << "1. Dodaj osobe" << endl << "2. Ustaw obecnosc" << endl << "3. Drukuj liste" << endl << "4. Edytuj liste" << endl << "5. Usun z listy" << endl << "6. Stop" << endl;
+		cin >> opcja;
+		switch (opcja) {
+		case 1:
+			cout << "Podaj nazwisko osoby" << endl;
+			cin >> nazwisko;
+			cout << "Podaj imie osoby" << endl;
+			cin >> imie;
+			cout << "Podaj numer indeksu osoby" << endl;
+			cin >> indeks;
+			dodajOsobe(tabNazwiska, tabImie, tabIndeks, nazwisko, imie, indeks);
+			break;
+		case 2:
+			cout << "Podaj nazwisko osoby" << endl;
+			cin >> nazwisko;
+			cout << "Czy obecna? (0/1)" << endl;
+			cin >> obecnosc;
+			ustawObecnosc(tabNazwiska, tabObecnosc, nazwisko, obecnosc);
+			break;
+		case 3:
+			drukujListe(tabNazwiska, tabObecnosc, tabImie, tabIndeks);
+			break;
+		case 4:
+			cout << "Podaj nazwisko osoby" << endl;
+			cin >> nazwisko;
+			edytujListe(tabNazwiska, tabImie, tabIndeks, tabObecnosc, nazwisko);
+			break;
+		case 5:
+			cout << "Podaj nazwisko osoby" << endl;
+			cin >> nazwisko;
+			usunzListy(tabNazwiska, tabImie, tabIndeks, tabObecnosc, nazwisko);
+			break;
+		case 6:
+			break;
+		}
 	}
 }
