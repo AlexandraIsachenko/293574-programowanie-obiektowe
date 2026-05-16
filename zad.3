@@ -1,0 +1,138 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Osoba {
+private:
+    string imie, nazwisko;
+    int indeks;
+public:
+    Osoba() : imie(""), nazwisko(""), indeks(0) {}
+    void setDane(string i, string n, int ind) { imie = i; nazwisko = n; indeks = ind; }
+    string getImie() const {return imie;}
+    string getNazwisko() const {return nazwisko;}
+    int getIndeks() const {return indeks;}
+};
+
+class Przedmiot{
+public:
+    string nazwaPrzedmiotu;
+    bool tabObecnosc[10];
+    Przedmiot() {
+        for (int i = 0; i < 10; i++) tabObecnosc[i]=false;
+    }
+};
+
+class ListaObecnosci {
+private:
+    Osoba *tabOsob[10];      
+    Przedmiot przedmiot;     
+    int liczbaStudentow; 
+public:
+    ListaObecnosci(string nazwa) : liczbaStudentow(0) {
+        przedmiot.nazwaPrzedmiotu = nazwa;
+    }
+
+    void dodajOsobe(Osoba *student) {
+        if (liczbaStudentow < 10) {
+            tabOsob[liczbaStudentow]=student;
+            liczbaStudentow++;
+            cout << "Dodano studenta do listy "<<przedmiot.nazwaPrzedmiotu<<endl;
+        } 
+        else cout << "Brak miejsca w bazie"<<endl;
+    }
+
+    void ustawObecnosc(string nazwisko, bool obecnosc) {
+    for (int i = 0; i < liczbaStudentow; i++) {
+        if (tabOsob[i]->getNazwisko() == nazwisko) { 
+            przedmiot.tabObecnosc[i] = obecnosc;
+            cout << "Zmieniono obecnosc" << endl;
+            return;
+        }
+    }
+    cout << "Nie znaleziono osoby" << endl;
+    }
+
+     void drukujListe() {
+        cout << endl<<"Przedmiot: " << przedmiot.nazwaPrzedmiotu << endl;
+        for (int i = 0; i < liczbaStudentow; i++) {
+            cout << i + 1 << ". " << tabOsob[i]->getImie() << " " << tabOsob[i]->getNazwisko()
+                 << " " << tabOsob[i]->getIndeks() << " " << (przedmiot.tabObecnosc[i] ? "obecny" : "nieobecny") << endl;
+        }
+    }
+
+    void usunOsobe(string nazwisko) {
+        int usunIdx = -1;
+        for (int i = 0; i < liczbaStudentow; i++) {
+            if (tabOsob[i]->getNazwisko() == nazwisko) {
+                usunIdx = i;
+                break;
+            }
+        }
+        if (usunIdx != -1) {
+            for (int i = usunIdx; i < liczbaStudentow - 1; i++) {
+                tabOsob[i] = tabOsob[i + 1];
+                przedmiot.tabObecnosc[i] = przedmiot.tabObecnosc[i + 1];
+            }
+            liczbaStudentow--;
+            cout << "Usunieto studenta z listy " << przedmiot.nazwaPrzedmiotu << endl;
+        }
+    }
+};
+
+class InterfejsUzytkownika {
+private:
+    Osoba studenci[20]; 
+    int liczbaStudentow;
+    ListaObecnosci analiza, ppo;
+public:
+    InterfejsUzytkownika() : liczbaStudentow(0), analiza("Analiza"), ppo("PPO") {}
+
+    void petla() {
+        int opcja = 0;
+        while (opcja != 6) {
+            cout << endl<<"1. Dodaj studenta"<<endl<<"2. Obecnosc: Analiza"<<endl<<"3. Obecnosc: PPO"<<endl<<"4. Drukuj listy"<<endl<<"5. Usun studenta"<<endl<<"6. Wyjdz"<<endl<<"Wybor: ";
+            cin >> opcja;
+            string imie, nazwisko; int indeks; bool obecnosc;
+            switch (opcja) {
+                case 1:
+                    if (liczbaStudentow < 20) {
+                        cout << "Imie: "; cin >> imie;
+                        cout << "Nazwisko: "; cin >> nazwisko;
+                        cout << "Indeks: "; cin >> indeks;
+                        studenci[liczbaStudentow].setDane(imie, nazwisko, indeks);
+                        analiza.dodajOsobe(&studenci[liczbaStudentow]);
+                        ppo.dodajOsobe(&studenci[liczbaStudentow]);
+                        liczbaStudentow++;
+                    } else cout << "Brak miejsca na liscie" << endl;
+                    break;
+                case 2:
+                    cout << "Nazwisko: "; cin >> nazwisko;
+                    cout << "Obecny (1/0): "; cin >> obecnosc;
+                    analiza.ustawObecnosc(nazwisko, obecnosc);
+                    break;
+                case 3:
+                    cout << "Nazwisko: "; cin >> nazwisko;
+                    cout << "Obecny (1/0): "; cin >> obecnosc;
+                    ppo.ustawObecnosc(nazwisko, obecnosc);
+                    break;
+                case 4:
+                    analiza.drukujListe();
+                    ppo.drukujListe();
+                    break;
+                case 5:
+                    cout << "Nazwisko do usuniecia: "; cin >> nazwisko;
+                    analiza.usunOsobe(nazwisko);
+                    ppo.usunOsobe(nazwisko);
+                    break;
+            }
+        }
+    }
+};
+
+int main() {
+    InterfejsUzytkownika ui;
+    ui.petla();
+    return 0;
+}
